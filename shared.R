@@ -1,9 +1,30 @@
+makeAndSavePlot <- function(makePlot, fileName) {
+  
+  # Only save the par defaults once into the Global Environment
+  if (!exists("par.defaults")) par.defaults <<- par(no.readonly = TRUE)
+  
+  readData()
+  makePlot()
+  
+  dev.copy(png, filename = fileName)
+  dev.off()
+  
+  par(par.defaults)
+}
+
 readData <- function(rawFile = "~/Projects/Coursera/ExData_Plotting1/exdata-data-household_power_consumption.zip") {
+
+  # Do nothing and return if the data set is already loaded in the Global Environment 
+  if (exists("hpc")) return()
+
+  # Donwload and unzip data file if necessary
   if (!file.exists(rawFile)) {
     downloadDataFile(rawFile)
     unzip(rawFile)
   }
-  read.table("household_power_consumption.txt", sep = ";", na.strings = "?", header = TRUE, colClasses = c(
+
+  # Read data, filter rows, add column with datetime, and store in Global Environment
+  hpc <<- read.table("household_power_consumption.txt", sep = ";", na.strings = "?", header = TRUE, colClasses = c(
     "character", # Date: Date in format dd/mm/yyyy
     "character", # Time: time in format hh:mm:ss
     "numeric",   # Global_active_power: household global minute-averaged active power (in kilowatt)
