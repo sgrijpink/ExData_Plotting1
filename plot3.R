@@ -2,14 +2,11 @@ library(dplyr)
 
 source("shared.R")
 
-plot3 <- function() {
-  makeAndSavePlot(mkplot3, "plot3.png")
-}
+makeAndSavePlot(mkplot3, "plot3.png")
 
 mkplot3 <- function() {
   with(hpc, {
-    plot(DateTime, Sub_metering_1, type = "n", xlab = "", ylab = "Energy sub metering")
-    lines(DateTime, Sub_metering_1, type = "l")
+    plot(DateTime, Sub_metering_1, type = "l", xlab = "", ylab = "Energy sub metering")
     lines(DateTime, Sub_metering_2, type = "l", col = "red")
     lines(DateTime, Sub_metering_3, type = "l", col = "blue")
     
